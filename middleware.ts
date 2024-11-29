@@ -19,6 +19,7 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
+// 仅对 app 目录下的路由应用此中间件
 export const config = {
-  matcher: ["/api/*"], // 只对指定 API 路由生效
+  matcher: "/((?!api|static|.*\\..*|_next).*)",
 };
