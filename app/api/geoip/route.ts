@@ -2,7 +2,6 @@ import maxmind from "maxmind";
 import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 
-// 定义 GeoIP 数据库路径
 const ipDbPath: string = path.join(
   process.cwd(),
   "lib/geoip/database/geolite2-country.mmdb"
@@ -10,7 +9,6 @@ const ipDbPath: string = path.join(
 
 let ipDbInstance: any;
 
-// 异步加载 GeoIP 数据库
 async function loadGeoIPDatabase() {
   if (!ipDbInstance) {
     ipDbInstance = await maxmind.open(ipDbPath);
@@ -18,9 +16,10 @@ async function loadGeoIPDatabase() {
   return ipDbInstance;
 }
 
+// 转换 IPv6 回环地址
 function normalizeIP(ip: string | null) {
   if (ip === "::1") {
-    return "127.0.0.1"; // 转换 IPv6 回环地址
+    return "127.0.0.1";
   }
 
   return ip;
