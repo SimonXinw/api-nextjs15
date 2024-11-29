@@ -31,12 +31,9 @@ function normalizeIP(ip: string | null) {
  * test : https://xxx.com/api/geoip?ip=207.148.80.179
  */
 export async function GET(req: NextRequest) {
-  // 获取查询参数中的 IP 值
   const { searchParams } = new URL(req.url);
 
   const ip = normalizeIP(searchParams.get("ip")) || "127.0.0.1"; // 默认 IP
-
-  // console.log('服务端： 走进来了>>>>', process.cwd());
 
   try {
     // 加载 GeoIP 数据库实例
@@ -51,9 +48,8 @@ export async function GET(req: NextRequest) {
     // 返回错误响应
     return NextResponse.json(
       {
-        code: 200,
-        success: false,
-        message: "服务端: 查询数据库失败 Error - Geoip faied to query IP",
+        code: 500,
+        message: `查询 geoip 数据库发生错误 ip: ${ip} ${error}`,
       },
       { status: 500 }
     );
